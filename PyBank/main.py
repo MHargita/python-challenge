@@ -3,30 +3,46 @@ import os
 import csv
 
 # Set path for the file
-csvpath = os.path.join('Resources', 'budget_data.csv')
+csvpath = os.path.join('.', 'Resources', 'budget_data.csv')
 
-# Define the function and have it accept the 'profit_losses' as its sole parameter
-def print_budget_stats(bank_data):
-    date = str(bank_data[0])
-    profit_losses = int(bank_data[1])
-    
-def total_profitlosses(bank_data):
-    profit_losses = sum(int(bank_data[1]))
+# Set months as a list
+# Set variables to zero
 
-
-    # Total profit_losses can be found by adding the sum together
-       
+months = []
+total_profits_losses = 0
+total_profit_change = 0
+previous_profit = 0
+profit_difference = 0
 
 # Open CSV
-with open(csvpath) as budget_csv_file:
-    csvreader = csv.reader(budget_csv_file, delimiter=",")
+with open(csvpath, 'r') as budget_csv_file:
+    csv_reader = csv.reader(budget_csv_file, delimiter= ",")
+
+#Skip header row
+    csv_header = next(csv_reader)
+
+# Create for loop
+    for row in csv_reader:
+        months.append(row[0])
+        total_profits_losses += int(row[1])
+        total_profit_change += int(row[1])-previous_profit
+        profit_difference = int(row[1])- previous_profit
+        previous_profit = int(row[1])
+
+# Print out to check
+print(len(months))
+print(total_profits_losses)
+print(total_profit_change)
+print(profit_difference)
+print(previous_profit)
 
 
-print(print_budget_stats(bank_data))
+
+
+
+
+
 # Find the total number of months included in the dataset
- 
-        
-
 
 # Find the net total amount of "Profit/Losses" over the entire period
 
