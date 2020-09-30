@@ -44,3 +44,20 @@ with open(csvpath, 'r') as election_data_file:
     print("-------------------------")
     print("Winner: " + winner)
     print("-------------------------")
+
+# Export to text file
+# Set Path 
+    output_path = os.path.join(".", "Analysis", "PyPollReport.txt")
+
+    with open(output_path, 'w') as txtfile:
+
+        txtfile.write("Election Results"+"\n")
+        txtfile.write("-------------------------"+"\n")
+        txtfile.write("Total Votes: " + str(Total_votes) +"\n")
+        txtfile.write("-------------------------"+"\n")
+        txtfile.write(result)
+        txtfile.write("-------------------------"+"\n")
+        txtfile.write("Winner: " + winner +"\n")
+        txtfile.write("-------------------------"+"\n")
+
+    txtfile.close()
