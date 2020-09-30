@@ -26,24 +26,31 @@ with open(csvpath, 'r') as budget_csv_file:
 #Skip header row
     csv_header = next(csv_reader)
 
+#Print title for Analysis
     print("Financial Analysis")
     print("----------------------------")
 
 # Create for loop
+    first_row = True
     for row in csv_reader:
         months.append(row[0])
         total_profits_losses += int(row[1])
-        total_profit_change += int(row[1])-previous_profit
-        profit_difference = int(row[1])- previous_profit
-        previous_profit = int(row[1])
 
-    if profit_difference > greatest_profit_increase:
-        GPI_month = row[0]
-        greatest_profit_increase = profit_difference
+        if not first_row:
+            profit_difference = int(row[1])- previous_profit
+            total_profit_change += profit_difference
+
+            if profit_difference > greatest_profit_increase:
+                GPI_month = row[0]
+                greatest_profit_increase = profit_difference
         
-    if profit_difference < greatest_profit_decrease:
-        GPD_month = row[0]
-        greatest_profit_decrease = profit_difference
+            if profit_difference < greatest_profit_decrease:
+                GPD_month = row[0]
+                greatest_profit_decrease = profit_difference
+
+
+        previous_profit = int(row[1])
+        first_row = False
 
 num_months = (len(months))
 print("Total Months: " + str(num_months))
@@ -52,3 +59,18 @@ average_profit_change = total_profit_change / (num_months - 1)
 print("Average Change: " + str(average_profit_change))
 print("Greatest Increase in Profits: " + str(GPI_month) + "$" + str(greatest_profit_increase))
 print("Greatest Decrease in Profits: " + str(GPD_month) + "$" + str(greatest_profit_decrease))
+
+output_path = os.path.join(".", "Analysis", "PyBankReport.txt")
+
+
+with open(output_path, 'w') as txtfile:
+
+    txtfile.write("Financial Analysis"+"\n")
+    txtfile.write("----------------------------"+"\n")
+    txtfile.write("Total Months: " + str(num_months)+"\n")
+    txtfile.write("Total: " + str(total_profits_losses)+"\n")
+    txtfile.write("Average Change: " + str(average_profit_change)+"\n")
+    txtfile.write("Greatest Increase in Profits: " + str(GPI_month) + " " + str(greatest_profit_increase)+"\n")
+    txtfile.write("Greatest Decrease in Profits: " + str(GPD_month) + " " + str(greatest_profit_decrease)+"\n")
+
+txtfile.close()
