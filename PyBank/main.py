@@ -9,8 +9,8 @@ csvpath = os.path.join('.', 'Resources', 'budget_data.csv')
 # Set variables to zero
 
 months = []
-GPI_month = []
-GPD_month = []
+GPI_month = ""
+GPD_month = ""
 total_profits_losses = 0
 total_profit_change = 0
 previous_profit = 0
@@ -26,29 +26,29 @@ with open(csvpath, 'r') as budget_csv_file:
 #Skip header row
     csv_header = next(csv_reader)
 
+    print("Financial Analysis")
+    print("----------------------------")
+
 # Create for loop
     for row in csv_reader:
         months.append(row[0])
         total_profits_losses += int(row[1])
-        #look for average_profit_change
         total_profit_change += int(row[1])-previous_profit
         profit_difference = int(row[1])- previous_profit
         previous_profit = int(row[1])
 
- 
-num_months = (len(months))
-average_profit_change = total_profit_change / (num_months - 1)
-
-if profit_difference > greatest_profit_increase:
+    if profit_difference > greatest_profit_increase:
         GPI_month = row[0]
         greatest_profit_increase = profit_difference
         
-if profit_difference < greatest_profit_decrease:
+    if profit_difference < greatest_profit_decrease:
         GPD_month = row[0]
         greatest_profit_decrease = profit_difference
 
+num_months = (len(months))
 print("Total Months: " + str(num_months))
 print("Total: " + str(total_profits_losses))
+average_profit_change = total_profit_change / (num_months - 1)
 print("Average Change: " + str(average_profit_change))
-print("Greatest Increase in Profits: " + GPI_month + " " + str(greatest_profit_increase))
-print("Greatest Decrease in Profits: " + GPD_month + " " + str(greatest_profit_decrease))
+print("Greatest Increase in Profits: " + str(GPI_month) + "$" + str(greatest_profit_increase))
+print("Greatest Decrease in Profits: " + str(GPD_month) + "$" + str(greatest_profit_decrease))
